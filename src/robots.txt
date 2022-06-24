@@ -1,0 +1,4 @@
+Sitemap: https://pressurelogic.com/sitemap.xml
+Sitemap: https://www.pressurelogic.com/sitemapwww.xml
+User-agent:*
+Disallow

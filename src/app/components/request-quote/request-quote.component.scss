@@ -1,0 +1,40 @@
+form {
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 6rem;
+}
+
+mat-form-field {
+    margin-top: .5rem;
+}
+
+::ng-deep .mat-form-field-appearance-outline.mat-form-field-disabled {
+    .mat-form-field-outline {
+        margin-top: 0;
+        opacity: 0;
+    }
+    .service-label {
+        color: #646485;
+    }
+    height: 3rem !important;
+}
+
+section {
+    margin-right: 3rem;
+    color: #646485;
+}
+
+ul {
+    display: table-cell;
+    padding-bottom: 1rem;
+}
+
+mat-checkbox {
+    color: #646485;
+}
+
+.fire-error {
+    color: #f44336;
+}

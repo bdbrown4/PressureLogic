@@ -1,0 +1,43 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <mat-form-field color="primary" appearance="outline">
+    <mat-label>First Name</mat-label>
+    <input formControlName="firstName" matInput placeholder="First Name">
+    <mat-error *ngIf="this.form.get('firstName')?.hasError('required')">This is required</mat-error>
+  </mat-form-field>
+  <mat-form-field color="primary" appearance="outline">
+    <mat-label>Last Name</mat-label>
+    <input formControlName="lastName" matInput placeholder="Last Name">
+    <mat-error *ngIf="this.form.get('lastName')?.hasError('required')">This is required</mat-error>
+  </mat-form-field>
+  <mat-form-field color="primary" appearance="outline">
+    <mat-label>Phone</mat-label>
+    <input formControlName="phone" matInput placeholder="Phone">
+    <mat-error *ngIf="this.form.get('phone')?.hasError('required')">This is required</mat-error>
+    <mat-error *ngIf="this.form.get('phone')?.hasError('pattern')">Provide valid phone number</mat-error>
+  </mat-form-field>
+  <mat-form-field color="primary" appearance="outline">
+    <mat-label>Email</mat-label>
+    <input formControlName="email" matInput placeholder="Email">
+    <mat-error *ngIf="this.form.get('email')?.hasError('required')">This is required</mat-error>
+    <mat-error *ngIf="this.form.get('email')?.hasError('email')">Provide valid email address</mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <input hidden="true" disabled="true" matInput>
+    <mat-label [ngClass]="!this.form.get('services')?.value && this.form.get('services')?.touched ? 'fire-error' : 'service-label'">Services Required *</mat-label>
+  </mat-form-field>
+  <section>
+      <mat-checkbox [checked]="allChecked" formControlName="services" [indeterminate]="someComplete()"
+        (change)="setAll($event.checked)">
+        {{services.name}}
+      </mat-checkbox>
+      <ul>
+        <li *ngFor="let subservice of services.subservices">
+          <mat-checkbox [(ngModel)]="subservice.checked" formControlName="services"
+            (ngModelChange)="updateAllComplete()" (change)="setSpecificService(subservice)">
+            {{subservice.name}}
+          </mat-checkbox>
+        </li>
+      </ul>
+  </section>
+  <button mat-raised-button color="primary" type="submit">Submit</button>
+</form>

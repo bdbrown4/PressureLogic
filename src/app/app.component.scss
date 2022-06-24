@@ -1,0 +1,51 @@
+
+heading {
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
+.request-button {
+    margin-left: 1rem;
+    color: #FFFFFF;
+}
+
+.menu-item-anchors {
+    color: #3f51b5;
+}
+
+.menu-button {
+    color: #FFFFFF;
+}
+
+mat-icon {
+    color: #FFFFFF;
+}
+
+mat-sidenav-container {
+    height: 93.35vh;
+    width: inherit;
+    margin: 0;
+}
+
+
+mat-toolbar {
+    z-index: 5;
+    display: flex;
+    flex-wrap: wrap;
+    height: auto;
+    justify-content: center;
+    background-color: #3f51b5;
+}
+
+mat-toolbar button:first-child {
+    position: absolute;
+    left: 0;
+}
+
+mat-toolbar:last-child {
+    position: fixed;
+    bottom: 0;
+    left:0;
+    width: 100%;
+    padding: .5rem;
+}
