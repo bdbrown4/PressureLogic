@@ -1,9 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { EmailRequest } from 'src/app/models/email.interface';
+import { Service } from 'src/app/models/service.interface';
 import { EmailService } from 'src/app/service/email-service.service';
 import { DialogComponent } from '../dialog/dialog.component';
 
@@ -12,7 +13,7 @@ import { DialogComponent } from '../dialog/dialog.component';
   templateUrl: './request-quote.component.html',
   styleUrls: ['./request-quote.component.scss']
 })
-export class RequestQuoteComponent implements OnInit, OnDestroy {
+export class RequestQuoteComponent implements OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
   form: FormGroup = this.formBuilder.group({
     firstName: new FormControl('', { validators: [Validators.required], updateOn: 'blur' }),
@@ -21,7 +22,8 @@ export class RequestQuoteComponent implements OnInit, OnDestroy {
     email: new FormControl('', [Validators.required, Validators.email]),
     services: new FormControl('', Validators.required)
   });
-
+  allChecked: boolean = false;
+  processing: boolean = false;
   services: Service = {
     name: 'All Listed Below',
     checked: false,
@@ -33,16 +35,12 @@ export class RequestQuoteComponent implements OnInit, OnDestroy {
     ] as Service[],
   };
 
-  allChecked: boolean = false;
   constructor(private formBuilder: FormBuilder, private emailService: EmailService, private router: Router, public dialog: MatDialog) {
 
   }
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-  }
-
-  ngOnInit(): void {
   }
 
   openDialog(): void {
@@ -57,6 +55,7 @@ export class RequestQuoteComponent implements OnInit, OnDestroy {
   }
 
   submit(): void {
+    this.processing = !this.processing
     this.form.get('services')?.markAsTouched();
     if(this.form.valid && this.isValid()) {
       const services = this.services.subservices?.filter(x => x.checked).map(x => x.name).join(', ').trim();
@@ -67,11 +66,13 @@ export class RequestQuoteComponent implements OnInit, OnDestroy {
         email: this.form.get('email')?.value,
         services: services ?? ''
       }
-      this.emailService.sendEmail(emailRequest).pipe(takeUntil(this.destroy$)).subscribe(data => {
+      this.emailService.sendEmail(emailRequest).pipe(
+          takeUntil(this.destroy$)).subscribe(data => {
+            this.processing = !this.processing;
         if (data.includes('Email sent from')) {
           this.openDialog();
         } else {
-          alert('there was an error');
+          alert('There was an error, please try again!');
           this.router.navigate(['home']);
         }
       });
@@ -104,10 +105,4 @@ export class RequestQuoteComponent implements OnInit, OnDestroy {
     this.services.subservices.filter(x => x.name == service.name).map(c => c.checked = service.checked);
   }
 
-}
-
-interface Service {
-  name: string;
-  checked: boolean;
-  subservices?: Service[];
 }

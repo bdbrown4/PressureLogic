@@ -1,4 +1,4 @@
-<form [formGroup]="form" (ngSubmit)="submit()">
+<form *ngIf="!processing else showSpinner" [formGroup]="form" (ngSubmit)="submit()">
   <mat-form-field color="primary" appearance="outline">
     <mat-label>First Name</mat-label>
     <input formControlName="firstName" matInput placeholder="First Name">
@@ -41,3 +41,6 @@
   </section>
   <button mat-raised-button color="primary" type="submit">Submit</button>
 </form>
+<ng-template #showSpinner>
+  <mat-spinner class="spinner" color="primary"></mat-spinner>
+</ng-template>
