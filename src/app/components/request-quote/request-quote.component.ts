@@ -2,7 +2,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { Subject, takeUntil } from 'rxjs';
+import { catchError, Subject, takeUntil } from 'rxjs';
 import { EmailRequest } from 'src/app/models/email.interface';
 import { Service } from 'src/app/models/service.interface';
 import { EmailService } from 'src/app/service/email-service.service';
@@ -47,17 +47,17 @@ export class RequestQuoteComponent implements OnDestroy {
     this.dialog.open(DialogComponent, {
       width: '250px',
       closeOnNavigation: true
-    }).afterClosed().pipe(takeUntil(this.destroy$)).subscribe(() => this.router.navigate(['home']));
+    }).afterClosed().pipe(takeUntil(this.destroy$)).subscribe(() => this.navigateHome());
   }
 
   isValid(): boolean {
     return this.services.checked || (this.services.subservices?.some(c => c.checked) ?? false);
   }
 
-  submit(): void {
-    this.processing = !this.processing
+  async submit(): Promise<void> {
     this.form.get('services')?.markAsTouched();
     if(this.form.valid && this.isValid()) {
+      this.processing = !this.processing
       const services = this.services.subservices?.filter(x => x.checked).map(x => x.name).join(', ').trim();
       const emailRequest: EmailRequest = {
         firstName: this.form.get('firstName')?.value,
@@ -67,16 +67,28 @@ export class RequestQuoteComponent implements OnDestroy {
         services: services ?? ''
       }
       this.emailService.sendEmail(emailRequest).pipe(
-          takeUntil(this.destroy$)).subscribe(data => {
+          catchError(async () => {
+            console.log('da fuq?');
+            return await this.timeoutForSpinnerError();
+          }),
+          takeUntil(this.destroy$)).subscribe(() => {
             this.processing = !this.processing;
-        if (data.includes('Email sent from')) {
-          this.openDialog();
-        } else {
-          alert('There was an error, please try again!');
-          this.router.navigate(['home']);
-        }
+            this.openDialog();
       });
     }
+  }
+
+  navigateHome(): Promise<boolean> {
+    return this.router.navigate(['home']);
+  }
+
+  async timeoutForSpinnerError() {
+    return new Promise(() => {
+      setTimeout(() => {
+        this.processing = !this.processing;
+        alert('There was an error, please try again!');
+      }, 1000);
+    });
   }
 
   updateAllComplete() {
