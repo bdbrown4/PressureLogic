@@ -68,7 +68,6 @@ export class RequestQuoteComponent implements OnDestroy {
       }
       this.emailService.sendEmail(emailRequest).pipe(
           catchError(async () => {
-            console.log('da fuq?');
             return await this.timeoutForSpinnerError();
           }),
           takeUntil(this.destroy$)).subscribe(() => {
