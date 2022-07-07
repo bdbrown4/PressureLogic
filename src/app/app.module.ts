@@ -17,6 +17,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
+import { MatDividerModule } from '@angular/material/divider';
 
 import { HomeComponent } from './components/home/home.component';
 import { AboutComponent } from './components/about/about.component';
@@ -65,6 +66,7 @@ const routes: Routes = [
     MatIconModule,
     MatCheckboxModule,
     MatSelectModule,
+    MatDividerModule,
   ],
   providers: [EmailService],
   bootstrap: [AppComponent]

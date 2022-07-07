@@ -12,6 +12,30 @@ mat-card-title {
 }
 
 mat-card {
-    margin: .75rem .25rem;
+    margin: .75rem auto 0 auto;
+    width: 75vw;
     background-color: #3f51b5;
+}
+
+mat-card-content {
+    display: flex;
+    flex-flow: column;
+    button {
+        color: #FFFFFF;
+        text-align: center;
+        width: fit-content;
+        margin: auto;
+    }
+
+    p {
+        margin-top: 5%;
+        font-size: medium;
+        color: #FFFFFF;
+        text-align: center;
+    }
+}
+
+mat-divider {
+    border-color: #FFFFFF;
+    width: fit-content;
 }
