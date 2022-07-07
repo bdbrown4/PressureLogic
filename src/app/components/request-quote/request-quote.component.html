@@ -10,6 +10,25 @@
     <mat-error *ngIf="this.form.get('lastName')?.hasError('required')">This is required</mat-error>
   </mat-form-field>
   <mat-form-field color="primary" appearance="outline">
+    <mat-label>Street Address</mat-label>
+    <input formControlName="streetAddress" matInput placeholder="Street Address">
+    <mat-error *ngIf="this.form.get('streetAddress')?.hasError('required')">This is required</mat-error>
+  </mat-form-field>
+  <mat-form-field color="primary" appearance="outline">
+    <mat-label>State</mat-label>
+    <mat-select formControlName="state" [(ngModel)]="selectedState" name="state">
+      <mat-option *ngFor="let states of usStates" [value]="states.abbreviation">
+        {{states.abbreviation}}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="this.form.get('state')?.hasError('required')">This is required</mat-error>
+  </mat-form-field>
+  <mat-form-field color="primary" appearance="outline">
+    <mat-label>Zip Code</mat-label>
+    <input formControlName="zip" matInput type="number" placeholder="Zip Code">
+    <mat-error *ngIf="this.form.get('zip')?.hasError('required')">This is required</mat-error>
+  </mat-form-field>
+  <mat-form-field color="primary" appearance="outline">
     <mat-label>Phone</mat-label>
     <input formControlName="phone" matInput placeholder="Phone">
     <mat-error *ngIf="this.form.get('phone')?.hasError('required')">This is required</mat-error>
