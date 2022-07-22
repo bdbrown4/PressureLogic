@@ -22,9 +22,10 @@ mat-icon {
 }
 
 mat-sidenav-container {
-    height: 93.35vh;
+    height: 120vh;
     width: inherit;
     margin: 0;
+    overflow: inherit;
 }
 
 mat-sidenav-content {
@@ -33,6 +34,7 @@ mat-sidenav-content {
     -moz-background-size: contain;
     -o-background-size: contain;
     background-size: contain;
+    overflow: inherit;
 }
 
 
