@@ -50,7 +50,7 @@ const routes: Routes = [
   imports: [
     AppRoutingModule,
     BrowserModule,
-    RouterModule.forRoot(routes),
+    RouterModule.forRoot(routes, {scrollPositionRestoration: 'top'}),
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,

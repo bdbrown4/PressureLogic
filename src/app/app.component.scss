@@ -27,6 +27,14 @@ mat-sidenav-container {
     margin: 0;
 }
 
+mat-sidenav-content {
+    background: url('../assets/Logo.png') no-repeat center /cover;
+    -webkit-background-size: contain;
+    -moz-background-size: contain;
+    -o-background-size: contain;
+    background-size: contain;
+}
+
 
 mat-toolbar {
     z-index: 5;
