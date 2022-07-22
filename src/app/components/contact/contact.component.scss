@@ -12,7 +12,9 @@ mat-card-title {
 }
 
 mat-card {
-    margin: .75rem auto 0 auto;
+    top: .75rem;
+    margin-right: auto;
+    margin-left: auto;
     width: 75vw;
     background-color: #3f51b5;
 }
